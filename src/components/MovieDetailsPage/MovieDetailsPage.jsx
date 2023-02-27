@@ -7,6 +7,20 @@ import {
   useParams,
 } from 'react-router-dom';
 import { getMovieDetails } from 'Services/fetchApi';
+import {
+  Container,
+  Description,
+  GoBackButton,
+  Information,
+  MoviePoster,
+  MovieTitle,
+  Overview,
+  OverviewText,
+  Score,
+  Wrapper,
+  WrapperDescription,
+  Year,
+} from './MovieDetailsPage.styled';
 
 const MoviesDetailsPage = () => {
   const [movie, setMovie] = useState([]);
@@ -18,10 +32,6 @@ const MoviesDetailsPage = () => {
   const { movieId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-
-  let activeClassName = {
-    color: '#2196f3',
-  };
 
   const handleClick = () => {
     navigate(location?.state?.from ?? '/');
@@ -36,46 +46,50 @@ const MoviesDetailsPage = () => {
   }, [movieId]);
   return (
     <>
-      <button onClick={handleClick}>Go Back</button>
+      <GoBackButton onClick={handleClick}>Go Back</GoBackButton>
 
       {loading && 'Loading...'}
       {error && <div>{error}</div>}
       {movie && (
-        <div>
-          <img
-            src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <h3>{movie.title}</h3>
-          <p>({getYear()})</p>
-          <p>User score: {movie.popularity}</p>
-          <div>
-            <h3>Overview</h3>
-            <p>{movie.overview}</p>
-          </div>
-        </div>
+        <Container>
+          <Wrapper>
+            <MoviePoster
+              src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
+              alt={movie.title}
+            />
+            <WrapperDescription>
+              <MovieTitle>{movie.title}</MovieTitle>
+              <Year>{getYear()}</Year>
+              <Description>
+                User score: <Score>{movie.popularity}</Score>
+              </Description>
+              <div>
+                <Overview>Overview</Overview>
+                <OverviewText>{movie.overview}</OverviewText>
+              </div>
+            </WrapperDescription>
+          </Wrapper>
+        </Container>
       )}
       <hr />
-      <div>
-        <h2>Additional Information</h2>
-        <NavLink
-          to={`/movies/${movieId}/reviews`}
-          style={({ isActive }) => (isActive ? activeClassName : undefined)}
-          state={location.state}
-        >
-          <p>Reviews</p>
-        </NavLink>
+      <Container>
+        <Information>Additional Information</Information>
+        <Wrapper>
+          <NavLink to={`/movies/${movieId}/reviews`} state={location.state}>
+            <p>Reviews</p>
+          </NavLink>
 
-        <NavLink
-          to={`/movies/${movieId}/cast`}
-          style={({ isActive }) => (isActive ? activeClassName : undefined)}
-          state={location.state}
-        >
-          <p>Cast</p>
-        </NavLink>
+          <NavLink
+            to={`/movies/${movieId}/cast`}
+            style={{ marginLeft: '20px' }}
+            state={location.state}
+          >
+            <p>Cast</p>
+          </NavLink>
+        </Wrapper>
         <hr />
         <Outlet />
-      </div>
+      </Container>
     </>
   );
 };

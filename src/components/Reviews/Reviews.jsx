@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchReviews } from 'Services/fetchApi';
+import {
+  Author,
+  ReviewAuthor,
+  ReviewList,
+  ReviewText,
+  Error,
+} from './Reviews.styled';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -23,14 +30,25 @@ const Reviews = () => {
   return (
     <>
       {error && <div>{error}</div>}
-      <ul>
-        {reviews.map(({ id, author, content }) => {
-          return <li key={id}>
-            <p>Author: {author}</p>
-            <p>{content}</p>
+      <ReviewList>
+        {reviews.length === 0 ? (
+          <li>
+            <Error>There is no reviews yet..</Error>
           </li>
-        })}
-      </ul>
+        ) : (
+          reviews.map(review => {
+            console.log(review);
+            return (
+              <li key={review.id}>
+                <ReviewAuthor>
+                  Author: <Author>{review.author}</Author>
+                </ReviewAuthor>
+                <ReviewText>{review.content}</ReviewText>
+              </li>
+            );
+          })
+        )}
+      </ReviewList>
     </>
   );
 };

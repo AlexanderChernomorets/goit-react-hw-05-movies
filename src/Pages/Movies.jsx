@@ -1,3 +1,4 @@
+import Loader from 'components/Loader/Loader';
 import MovieList from 'components/MovieList/MovieList';
 import SearchBar from 'components/SearchBar/SearchBar';
 import { useEffect, useState } from 'react';
@@ -42,7 +43,7 @@ const Movies = () => {
 
   return (
     <>
-      {loading && 'Loading...'}
+      {loading && <Loader />}
       {error && <div>{error}</div>}
       <SearchBar onSubmit={onSubmit} />
       {movies && <MovieList movies={movies} prevLocation={location} />}
