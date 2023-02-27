@@ -1,3 +1,4 @@
+import Loader from 'components/Loader/Loader';
 import { useEffect, useState } from 'react';
 import {
   NavLink,
@@ -48,7 +49,7 @@ const MoviesDetailsPage = () => {
     <>
       <GoBackButton onClick={handleClick}>Go Back</GoBackButton>
 
-      {loading && 'Loading...'}
+      {loading && <Loader />}
       {error && <div>{error}</div>}
       {movie && (
         <Container>
