@@ -32,6 +32,7 @@ export const App = () => {
             <Route path="/movies/:movieId/reviews" element={<Reviews />} />
             <Route path="/movies/:movieId/cast" element={<Cast />} />
           </Route>
+          <Route path='*' element={<Homepage/>}></Route>
         </Routes>
       </Suspense>
     </div>
